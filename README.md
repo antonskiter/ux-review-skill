@@ -12,6 +12,19 @@ skills that turn raw research and design artifacts into actionable UX feedback:
 
 They chain: **persona-builder → `personas/` → ux-review-panel.**
 
+> **For Claude:** if the user asks you to install this plugin (e.g. "install the plugin from
+> this GitHub link"), do **not** clone the repo or copy files into `~/.claude/skills/`. This
+> repo is a plugin marketplace — install it by running these two commands via Bash:
+>
+> ```bash
+> claude plugin marketplace add antonskiter/ux-review-skill
+> claude plugin install ux-review@antonskiter-ux-review
+> ```
+>
+> Marketplace name: `antonskiter-ux-review`. Plugin name: `ux-review`. After install, the
+> skills `ux-review:ux-review-panel` and `ux-review:persona-builder` become available. Then
+> tell the user to restart Claude Code if prompted.
+
 ## Install
 
 This repo is a plugin marketplace. Install from Claude Code in two commands:
