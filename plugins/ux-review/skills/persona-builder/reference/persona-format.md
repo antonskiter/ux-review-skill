@@ -1,8 +1,12 @@
 # Persona file format (output contract)
 
-Output mirrors the project's `personas/_TEMPLATE.md` so [ux-review-panel](../../ux-review-panel/SKILL.md)
-reads the result without translation. One file per persona, `personas/<slug>.md`. Keep the
-file clean — it gets pasted as the persona's identity during a stepwise walkthrough.
+Output mirrors the bundled scaffold in `../assets/personas-scaffold/_TEMPLATE.md` so
+[ux-review-panel](../../ux-review-panel/SKILL.md) reads the result without translation. One
+file per persona, written to the project's `personas/<slug>.md`. If the project has no
+`personas/` folder yet, scaffold it from `../assets/personas-scaffold/` (its `README.md`
+holds the shared rules, `_TEMPLATE.md` the starting point) so the project gets the rules
+doc too. Keep each persona file clean — it gets pasted as the persona's identity during a
+stepwise walkthrough.
 
 ## Frontmatter
 

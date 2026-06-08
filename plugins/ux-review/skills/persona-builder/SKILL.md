@@ -122,10 +122,12 @@ hole. Avoid the crowd: 3–5 sharp personas beat eight blurry ones.
 ### Phase 5 — Write the files
 
 Write one file per persona into the project's `personas/` folder, matching the format
-contract in [reference/persona-format.md](reference/persona-format.md) (which mirrors the
-project's `personas/_TEMPLATE.md`). Also write a `_synthesis.md` provenance note alongside:
-where each persona came from, evidence-vs-inference, the coverage map, and the gaps. Keep
-the persona files themselves clean (the review panel pastes them as identity); put the audit
+contract in [reference/persona-format.md](reference/persona-format.md). If the project has no
+`personas/` folder yet, create it by copying the bundled scaffold
+`assets/personas-scaffold/` (it carries the shared-rules `README.md` and `_TEMPLATE.md`),
+then write the personas in. Also write a `_synthesis.md` provenance note alongside: where
+each persona came from, evidence-vs-inference, the coverage map, and the gaps. Keep the
+persona files themselves clean (the review panel pastes them as identity); put the audit
 trail in `_synthesis.md`.
 
 ## Output layout

@@ -1,0 +1,14 @@
+{
+  "name": "antonskiter-ux-review",
+  "owner": {
+    "name": "Anton Skiter"
+  },
+  "description": "UX review panel and persona builder skills for Claude Code",
+  "plugins": [
+    {
+      "name": "ux-review",
+      "source": "./plugins/ux-review",
+      "description": "Run UX artifacts through a panel of personas and experts, and build grounded personas from any research materials."
+    }
+  ]
+}

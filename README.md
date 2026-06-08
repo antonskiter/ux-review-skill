@@ -1,7 +1,7 @@
-# UX Review Skills
+# UX Review — Claude Code plugin
 
-Two paired [Claude Code](https://docs.claude.com/en/docs/claude-code) skills that turn raw
-research and design artifacts into actionable UX feedback:
+A [Claude Code](https://docs.claude.com/en/docs/claude-code) plugin bundling two paired
+skills that turn raw research and design artifacts into actionable UX feedback:
 
 - **`ux-review-panel`** — runs any UX artifact (PNG, folder of screens, Figma, live product,
   prototype) through a panel of user **personas** and discipline **experts**, then produces a
@@ -14,56 +14,44 @@ They chain: **persona-builder → `personas/` → ux-review-panel.**
 
 ## Install
 
-Personal Claude Code skills live in `~/.claude/skills/`. To install both, paste this into a
-terminal:
+This repo is a plugin marketplace. Install from Claude Code in two commands:
 
-```bash
-git clone https://github.com/antonskiter/ux-review-skill.git /tmp/ux-review-skill && \
-mkdir -p ~/.claude/skills && \
-cp -R /tmp/ux-review-skill/ux-review-panel /tmp/ux-review-skill/persona-builder ~/.claude/skills/ && \
-rm -rf /tmp/ux-review-skill && \
-echo "Installed: ux-review-panel, persona-builder"
+```
+/plugin marketplace add antonskiter/ux-review-skill
+/plugin install ux-review@antonskiter-ux-review
 ```
 
-Then restart Claude Code (or start a new session) so it picks up the skills. Verify with
-`/skills` — both should appear in the list.
+That's it — restart Claude Code if prompted. The skills then appear as
+`ux-review:ux-review-panel` and `ux-review:persona-builder`, and trigger automatically from
+natural language (you don't have to call them by name).
 
-### Update to the latest version
+**To share with someone:** send them this repo link and those two lines. No cloning, no
+copying files into personal folders.
 
-Re-run the install command; `cp -R` overwrites the existing folders with the new version.
+CLI equivalent:
+
+```bash
+claude plugin marketplace add antonskiter/ux-review-skill
+claude plugin install ux-review@antonskiter-ux-review
+```
+
+### Update
+
+```
+/plugin marketplace update antonskiter-ux-review
+```
+
+New versions are picked up because `plugin.json` carries a bumped `version`.
 
 ### Uninstall
 
-```bash
-rm -rf ~/.claude/skills/ux-review-panel ~/.claude/skills/persona-builder
 ```
-
-### Install for one project only
-
-To scope the skills to a single repo instead of globally, copy them into that repo's
-`.claude/skills/` instead of `~/.claude/skills/`:
-
-```bash
-mkdir -p .claude/skills && \
-cp -R /tmp/ux-review-skill/ux-review-panel /tmp/ux-review-skill/persona-builder .claude/skills/
+/plugin uninstall ux-review@antonskiter-ux-review
 ```
-
-## The `personas/` folder
-
-`personas/` in this repo is **not a skill** — it's a project-side scaffold. Personas are
-grounded in *your* users, so they live in the project being reviewed, not in the skill.
-Copy it into your project root and fill it in (or let `persona-builder` generate the files):
-
-```bash
-cp -R /tmp/ux-review-skill/personas /path/to/your/project/
-```
-
-`personas/README.md` holds the shared rules; `_TEMPLATE.md` is the starting point for one
-persona. `ux-review-panel` discovers personas here automatically.
 
 ## Usage
 
-Skills trigger from natural language — you don't call them by name. Examples:
+Skills trigger from natural language. Examples:
 
 - *"Build personas from these interview transcripts in `research/`"* → **persona-builder**
 - *"Run a UX review on the screens in `designs/checkout/`"* → **ux-review-panel**
@@ -73,28 +61,38 @@ Skills trigger from natural language — you don't call them by name. Examples:
 ### A typical end-to-end flow
 
 1. Drop research materials in your project and ask Claude to **build personas**. It proposes
-   a candidate set, you confirm, and it writes files into `personas/`.
+   a candidate set, you confirm, and it writes files into a `personas/` folder in your
+   project (scaffolding it from the bundled template on first run).
 2. Ask Claude to **review** a set of screens. It captures them, builds a flow graph, walks
    each persona through naively (one screen at a time), runs the experts, and writes a
    report + prioritized action-items under `ux-review/<date>-<target>-<version>/`.
 
-## What's in each skill
+The `personas/` folder is **project-side** — personas are grounded in *your* users, so they
+live in the project being reviewed, not in the plugin. `persona-builder` creates and fills
+it; `ux-review-panel` discovers it automatically.
+
+## Repo layout
 
 ```
-ux-review-panel/        # the review panel
-├── SKILL.md            # entry point: phases 0-6, regression rules
-├── experts/            # reviewer roles (usability, visual, journey, a11y)
-├── reference/          # heuristics, severity/effort, flow graph, report templates, …
-└── prompts/            # persona-walkthrough + expert-review instructions
-
-persona-builder/        # the persona generator
-├── SKILL.md            # entry point: phases 0-5
-├── reference/          # material intake, synthesis, grounding, output format
-└── prompts/            # signal-extraction instruction
-
-personas/               # project-side scaffold (copy into your project)
-├── README.md           # shared rules for all personas
-└── _TEMPLATE.md        # one-persona template
+.
+├── .claude-plugin/
+│   └── marketplace.json            # marketplace catalog (this repo)
+└── plugins/
+    └── ux-review/                  # the plugin
+        ├── .claude-plugin/
+        │   └── plugin.json         # plugin manifest
+        └── skills/
+            ├── ux-review-panel/    # review-panel skill
+            │   ├── SKILL.md
+            │   ├── experts/        # reviewer roles (usability, visual, journey, a11y)
+            │   ├── reference/      # heuristics, severity/effort, flow graph, templates
+            │   └── prompts/        # persona-walkthrough + expert-review instructions
+            └── persona-builder/    # persona-generator skill
+                ├── SKILL.md
+                ├── reference/      # material intake, synthesis, grounding, output format
+                ├── prompts/        # signal-extraction instruction
+                └── assets/
+                    └── personas-scaffold/   # README + _TEMPLATE.md dropped into projects
 ```
 
 ## Design principles
@@ -105,6 +103,7 @@ personas/               # project-side scaffold (copy into your project)
   flags; review findings note run limitations and what couldn't be reached.
 - **Stable IDs.** Action-items are keyed by a hash of their normalized essence, so they
   survive rewording and let you diff reviews across versions.
+- **Consensus over ties.** The panel aims for an odd 3–5 personas so priority breaks cleanly.
 - **Untrusted content.** Artifact and material text is treated as data to analyze, never as
   instructions to follow.
 - **Speaks your language.** If the input is non-English, reports and personas come back in

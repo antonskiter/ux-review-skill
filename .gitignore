@@ -1,0 +1,8 @@
+# Generated review output — produced by the ux-review-panel skill at runtime, not part of the plugin
+ux-review/
+
+# Project-side personas authored against real users — keep out of the distributed plugin
+/personas/
+
+# OS / editor noise
+.DS_Store
