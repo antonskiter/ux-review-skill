@@ -42,10 +42,20 @@ Normalized essence = these parts, lowercased, trimmed, joined with `|`:
 Then `AI-<first 4 hex of a hash of that string>`. Example essence:
 `checkout-payment|NN-05|cvv|format|rejected` → `AI-7c41`.
 
-Recipe in practice: build the essence string, hash it (any stable hash — e.g. first 4 hex
-of SHA-1), prefix `AI-`. Keep a small map of essence→ID in the report run so you can carry
-IDs forward on re-runs: if a new finding's normalized essence matches a prior run's, reuse
-that ID and mark status accordingly.
+Recipe in practice: the **real work is building the essence string** — deciding the screen
+slug, the rule key, and the 2–4 keywords that capture the problem. That's a judgment call
+you make during synthesis anyway. The hash itself is then a one-liner with standard tools —
+don't write a script or compute it in your head (you'll get it wrong):
+
+```bash
+printf '%s' "checkout-payment|NN-05|cvv|format|rejected" | shasum | cut -c1-4
+# → 7c41   →  AI-7c41
+```
+
+`shasum` on macOS, `sha1sum` on Linux, `md5` also fine — any stable hash, first 4 hex,
+prefix `AI-`. Keep a small map of essence→ID in the report run so you can carry IDs forward
+on re-runs: if a new finding's normalized essence matches a prior run's, reuse that ID and
+mark status accordingly.
 
 If two roles produce the same normalized essence, that's the dedup signal — collapse them
 into one item, list both finders, and mark *"confirmed by N roles."*

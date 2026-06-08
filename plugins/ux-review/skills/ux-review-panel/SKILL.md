@@ -27,6 +27,15 @@ Take a UX artifact and run it through two kinds of reviewers:
 The output is a UX-research-style `report.md` plus the main deliverable: a prioritized
 `action-items.md` with stable IDs designers can act on and track across versions.
 
+## Built for Claude Code
+
+This skill assumes a **Claude Code** environment: real subagents (Agent/Task), a writable
+filesystem, and Bash (`curl`, hashing). Those are what make the design work — isolated
+persona sub-runs, screens saved to `screens/`, stable-ID hashing. In a cut-down environment
+(e.g. plain Claude with no subagents or filesystem) it still runs, but degrades: personas
+go sequential with softer isolation, and screens may only be referenceable by source rather
+than saved as files. Note any such degradation in the report's run limitations.
+
 ## Operating principle: orchestrate once, distribute ready-made
 
 You are the **orchestrator**. Everything expensive — acquiring the input, capturing
@@ -73,6 +82,11 @@ processes. Full decision table: [reference/input-acquisition.md](reference/input
 Always record what you actually ended up working with (and what you couldn't reach) —
 this becomes the **"run limitations"** section of the report.
 
+If the input is Figma, also **probe the comment write-channel now**, not at Phase 6: the
+Figma MCP often can't post comments at all. Set expectations early about whether pin-comments
+are possible (see [reference/figma-comments.md](reference/figma-comments.md)) instead of
+promising them and hitting a dead-end at the end.
+
 ### Phase 1 — Capture screens
 
 Normalize whatever you acquired into a flat, ordered set of images in `screens/`, named
@@ -85,6 +99,14 @@ timeout rather than failing the batch. Pull source-level output (code, markup, d
 data, base64) only to read copy text or tokens on a specific screen — never to reconstruct
 the image, which burns context and usually dead-ends. The traps and the per-input concrete
 tools (incl. the Figma `get_metadata` → order-by-canvas → `get_screenshot` flow) are in
+[reference/input-acquisition.md](reference/input-acquisition.md).
+
+**Make sure the screens actually land on disk.** MCP screenshot tools usually return the
+image **inline into context, not as a file** — so `report.md`'s `screens/Sxx.png` links
+would be broken. After capturing each screen, materialize it to `screens/` (fetch the
+node/page export URL with `curl` and save the bytes). Before finishing, verify every image
+link in the report resolves to a real file. If materializing is truly impossible, reference
+screens by source (node-id / URL) and say so — never write fabricated file links. Details in
 [reference/input-acquisition.md](reference/input-acquisition.md).
 
 ### Phase 2 — Build the flow graph

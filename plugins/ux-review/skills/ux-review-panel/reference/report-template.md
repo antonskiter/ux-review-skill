@@ -96,3 +96,7 @@ The {frame, coordinate, text} list that was posted, or would be posted in dry-ru
 - Each item in `action-items.md` carries `<a id="AI-xxxx"></a>` and links back to its
   screen image. Stable IDs are the through-line connecting list ↔ screen ↔ Figma pin ↔
   next version.
+- **No broken links.** Every `![](screens/Sxx.png)` must point at a file that actually
+  exists in `screens/` (MCP screenshots are inline by default — materialize them, see
+  [input-acquisition.md](input-acquisition.md)). If a screen couldn't be saved, reference it
+  by source (node-id / URL) instead of writing a dead file link.

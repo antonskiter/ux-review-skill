@@ -11,6 +11,11 @@ Record what you actually worked with for the report's "run limitations" section.
    escalate to a heavier method or install anything.
 3. Whatever you settle on, note its limits (no interactivity, no error states, etc.).
 
+**MCP calls can hang.** A single screenshot/export call can stall for minutes on a large
+node. Don't let one slow call freeze the whole run: shrink the scope (lower resolution,
+one node instead of a page), retry once or twice, and if it still won't return, skip that
+screen, note it, and move on. Partial coverage you flag honestly beats a stalled review.
+
 ## Capture principle: pixels, not source
 
 Whatever the input, a UX review needs **rendered images of screens** — what a user's eye
@@ -40,6 +45,28 @@ So, for any input type:
 tool responses to rebuild an image. It doesn't fit the response, it's slow, and it almost
 always fails. If the only image path is a source dump, that's a signal to switch tools or
 ask the user for exports, not to grind through bytes.
+
+### Inline screenshots vs. files on disk (important)
+
+Many screenshot tools — Figma MCP `get_screenshot`, some browser MCPs — return the image
+**inline into your context, not as a file on disk.** You can *see* it, but `report.md`'s
+`![](screens/S01.png)` links point at files that don't exist. A report full of broken image
+links is a broken deliverable.
+
+So after capturing each screen, **materialize it into `screens/`**:
+
+- If the tool exposes an export/render **URL** for the node/page (Figma's image-export
+  endpoint, a browser's saved-capture path), fetch that URL with `curl` and save the bytes
+  to `screens/Sxx-name.png`. This is the normal path in Claude Code — you have the
+  filesystem and `curl`.
+- Do this per screen as you go, with the same degrade-on-timeout discipline; don't batch.
+- **Only if materializing is genuinely impossible** (no URL, no write access) → do **not**
+  write fabricated `screens/` links. Instead state in the report that screens are
+  reproducible by their source reference (node-id / URL), embed inline where the medium
+  allows, and say so in run limitations. Honest beats broken.
+
+Verify before finishing: every image link in `report.md` resolves to a file that actually
+exists in `screens/`.
 
 ## By input type
 

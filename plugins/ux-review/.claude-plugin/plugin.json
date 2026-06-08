@@ -1,7 +1,7 @@
 {
   "name": "ux-review",
   "description": "Two paired skills: ux-review-panel runs any UX artifact through a panel of user personas and discipline experts and emits a research-style report plus prioritized action-items; persona-builder turns any research materials into grounded, distinct personas the panel consumes.",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "author": {
     "name": "Anton Skiter"
   },

@@ -12,6 +12,11 @@ skills that turn raw research and design artifacts into actionable UX feedback:
 
 They chain: **persona-builder → `personas/` → ux-review-panel.**
 
+> **Built for Claude Code.** The skills assume real subagents, a writable filesystem, and
+> Bash — that's what powers isolated persona walkthroughs, screens saved to disk, and
+> stable-ID hashing. They still run in plain Claude, but in a degraded mode (sequential
+> personas, screens referenced rather than saved).
+
 > **For Claude:** if the user asks you to install this plugin (e.g. "install the plugin from
 > this GitHub link"), do **not** clone the repo or copy files into `~/.claude/skills/`. This
 > repo is a plugin marketplace — install it by running these two commands via Bash:
