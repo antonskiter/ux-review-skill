@@ -22,9 +22,16 @@ persona down a path that doesn't exist and poisons the findings.
 - **Live product / prototype** — observed at click time. Record the trigger (which element)
   on the edge; these are your highest-confidence transitions.
 - **Figma** — read prototype links and frame naming. A `→` wired between frames is an edge;
-  naming conventions (`01 Login`, `02 …`) suggest order but are weaker than wired links.
+  naming conventions (`01 Login`, `02 …`) suggest order but are weaker than wired links. For
+  default ordering, **sort frames by canvas position** (X, then Y) — designers lay flows out
+  left-to-right, and source/layer order does *not* match the canvas. Position-order is an
+  *inferred* spine; wired prototype links override it where they exist.
 - **Static images** — order by file numbering/names plus best-guess of what follows what.
   Mark these edges as *inferred*. When numbering is ambiguous, ask rather than assume.
+
+General rule: **a screen's position in the source (layer order, DOM order, file listing) is
+not its position in the flow.** Order by spatial layout or observed navigation, and mark
+anything you didn't observe as inferred.
 
 ## Representing the graph
 

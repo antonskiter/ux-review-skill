@@ -14,6 +14,18 @@ dry-run.
 3. Consent → ask: *"Post N findings as pin-comments to the Figma file? Or do a dry-run
    (show exactly what I'd post, post nothing)?"* Default to dry-run if unsure.
 
+## Choosing the write channel
+
+- **Comments attributed to the user** (so the team sees who left them) come from the REST
+  Comments API authenticated with the *user's* token (`POST /v1/files/:key/comments`,
+  pinned via `client_meta.node_id` + `node_offset`).
+- **Plugin/MCP-created comments** are a fallback — they post, but typically not as the user.
+  Mention this tradeoff when offering the option.
+- **Token handling, non-negotiable:** never accept a token pasted into chat and never echo
+  it. If a token is needed, hand the user a small script that reads it from their
+  environment and makes the request, so the secret stays out of the conversation. Confirm
+  what would be posted (dry-run) before anything runs.
+
 ## Mapping an action-item → a pin
 
 A Figma comment is pinned to a coordinate on a frame. For each item:

@@ -11,26 +11,67 @@ Record what you actually worked with for the report's "run limitations" section.
    escalate to a heavier method or install anything.
 3. Whatever you settle on, note its limits (no interactivity, no error states, etc.).
 
+## Capture principle: pixels, not source
+
+Whatever the input, a UX review needs **rendered images of screens** — what a user's eye
+sees. Most tools that touch a design or a page expose *two* kinds of output: a **render**
+(an image of the screen) and the **source behind it** (code, markup, DOM, design data,
+base64 blobs). For capturing screens you want the render. Pulling source to *reconstruct*
+images burns context and usually dead-ends.
+
+So, for any input type:
+
+- **Use the tool that returns a rendered image directly.** Whatever the channel calls it
+  (a screenshot/snapshot/export-as-image action), that's the one. Reach for source-level
+  output (markup, component code, design metadata, tokens) **only** to read copy text or
+  check token values on a *specific* screen — never as the way to get the picture.
+- **Capture one screen at a time** at a sensible resolution (≈1280–1440px on the long
+  edge). Don't try to export the whole set in a single call — large multi-frame exports
+  time out or overflow the tool response.
+- **Degrade gracefully.** If a capture times out on a big screen, lower the resolution and
+  retry; keep going screen-by-screen rather than failing the whole batch.
+- **Order by what the eye/flow shows, not by source order.** Source/markup order (XML
+  order, DOM order, layer order) is *not* the flow order. Order screens by their spatial
+  position on the canvas (left→right / top→bottom) or by observed navigation. See
+  [flow-graph.md](flow-graph.md).
+
+**Anti-pattern — don't do this:** harvesting base64 / binary image data in chunks through
+tool responses to rebuild an image. It doesn't fit the response, it's slow, and it almost
+always fails. If the only image path is a source dump, that's a signal to switch tools or
+ask the user for exports, not to grind through bytes.
+
 ## By input type
 
 ### Live URL / web product
 
 - **Browser integration already connected** (Chrome MCP, chrome-devtools, or similar) →
   use it. This is best: real interactivity, real states, observed transitions for the flow
-  graph.
-- **Not connected** → light `WebFetch` / `curl` for the markup to understand structure and
-  copy. This gives you text and DOM, not rendered states or interactivity.
-- **Markup alone is too little** → STOP and offer, as a plain choice:
+  graph. Capture each state with the browser's **screenshot** action (pixels), per the
+  capture principle — not by scraping the DOM to rebuild the page.
+- **Not connected** → light markup fetch to understand structure and copy is fine for
+  *text*, but it isn't a screen capture. Don't try to render pixels from markup.
+- **Can't render the actual screens** → STOP and offer, as a plain choice:
   - send screenshots (valid and often enough),
   - connect the browser integration for interactive review,
-  - use Playwright *if it's already installed* (don't install it).
+  - use a headless browser tool *if it's already installed* (don't install one).
 
 ### Figma
 
-- **Figma MCP connected** → use it directly (screens via `get_screenshot`, structure via
-  `get_metadata`, prototype links for the flow graph, variables for token checks).
-- **Not connected** → ask which is convenient: attach PNG exports, provide a Figma REST
-  token, or connect the MCP. Don't guess a token or a file key.
+A concrete instance of the capture principle. With the Figma MCP connected:
+
+1. **`get_metadata`** on the node from the link → the list of frames in that section/page.
+2. **Order the frames by canvas position** (X, then Y). Figma's source/layer order is not
+   the flow order — the visual left-to-right arrangement usually is.
+3. For each frame, capture with the **screenshot tool** (`get_screenshot` by node-id,
+   long edge ≈1280–1440) → inline images into `screens/`, one frame at a time.
+
+Use `get_design_context` / design-data tools **only** to read a screen's copy text or
+token values — *not* to obtain the screen image (it returns code/data, which is the wrong
+shape for review and wastes context). Do not chunk base64 out of an export call.
+
+- **MCP not connected** → ask which is convenient: attach PNG exports, provide a Figma REST
+  token, or connect the MCP. Don't guess a token or a file key, and don't accept a token
+  pasted into chat (see [figma-comments.md](figma-comments.md) for safe token handling).
 
 ### Static (PNG / folder of exports)
 

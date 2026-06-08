@@ -78,6 +78,15 @@ this becomes the **"run limitations"** section of the report.
 Normalize whatever you acquired into a flat, ordered set of images in `screens/`, named
 `S01-login.png`, `S02-cart.png`, … One shared asset package, referenced by everyone.
 
+**Capture rendered images, not source.** A review needs pixels — the screen as the eye
+sees it. Use the tool that returns an image directly (a screenshot/snapshot/export-image
+action), one screen at a time at a sensible resolution; degrade resolution and retry on
+timeout rather than failing the batch. Pull source-level output (code, markup, design
+data, base64) only to read copy text or tokens on a specific screen — never to reconstruct
+the image, which burns context and usually dead-ends. The traps and the per-input concrete
+tools (incl. the Figma `get_metadata` → order-by-canvas → `get_screenshot` flow) are in
+[reference/input-acquisition.md](reference/input-acquisition.md).
+
 ### Phase 2 — Build the flow graph
 
 Build a **graph** (nodes = screens/states, edges = transitions). The common case is a
