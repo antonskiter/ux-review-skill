@@ -1,8 +1,8 @@
 # Experts
 
-Each file here is a **self-contained reviewer role**. Experts ship with this skill and
-update with it (unlike personas, which live in the project). An expert assesses the
-screens as artifacts against known heuristics — it does not role-play a user.
+Each file is a **self-contained reviewer role**. Experts ship with this skill and update
+with it (personas live in the project). An expert assesses screens as artifacts against
+known heuristics — it does not role-play a user.
 
 ## How a role is structured
 
@@ -10,19 +10,17 @@ Frontmatter:
 
 - `role` — short identifier (e.g. `ux-usability`)
 - `focus` — one-line description of the lens
-- `enabled_by_default` — `true` loads it on every run; `false` is opt-in (the
-  orchestrator offers it)
+- `enabled_by_default` — `true` loads it on every run; `false` is opt-in (orchestrator offers it)
 
 Body, four sections:
 
 - **Optics** — what this role looks at, the mindset it adopts
-- **Rules** — the heuristics it applies, with links into
-  [../reference/heuristics.md](../reference/heuristics.md). Roles don't restate the full
-  heuristic catalog; they point at the shared reference so wording stays consistent.
-- **What to capture** — the shape of findings it should produce
-- **What it does NOT do** — explicit boundaries, so roles don't overlap and report the
-  same issue four times. Dedup happens in synthesis, but clean role boundaries keep the
-  raw findings distinct in the first place.
+- **Rules** — the heuristics it applies, linking into
+  [../reference/heuristics.md](../reference/heuristics.md). Point at the shared reference;
+  don't restate the catalog.
+- **What to capture** — the shape of findings it produces
+- **What it does NOT do** — explicit boundaries that defer neighboring concerns to the
+  roles that own them.
 
 ## The default panel
 
@@ -33,9 +31,8 @@ Body, four sections:
 
 ## Adding your own expert
 
-Copy any existing file, keep the four-section shape, and give it a `focus` that doesn't
-already belong to another role — then add a **What it does NOT do** that defers the
-neighboring concerns to the roles that own them. Point its rules at
-[../reference/heuristics.md](../reference/heuristics.md); add new heuristics there (with a
-stable key) rather than inlining them, so synthesis can dedup by rule key. Set
-`enabled_by_default` honestly: only `true` if it earns its cost on a typical run.
+Copy any existing file, keep the four-section shape, give it a `focus` no other role owns,
+and add a **What it does NOT do** deferring neighboring concerns. Point rules at
+[../reference/heuristics.md](../reference/heuristics.md); add new heuristics there with a
+stable key rather than inlining, so synthesis dedups by key. Set `enabled_by_default: true`
+only if it earns its cost on a typical run.

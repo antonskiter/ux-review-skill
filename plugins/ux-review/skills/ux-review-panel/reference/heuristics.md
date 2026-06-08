@@ -1,9 +1,8 @@
 # Heuristics catalog
 
-Shared reference for all experts. Each heuristic has a **stable key** — experts cite the
-key on every finding so synthesis can dedup by rule (two roles citing `NN-05` on the same
-screen are probably the same item). Add new heuristics here with a new key rather than
-inventing wording inside a role file.
+Shared reference for all experts. Each heuristic has a **stable key** — cite the key on
+every finding so synthesis can dedup by rule. Add new heuristics here with a new key; never
+invent wording inside a role file.
 
 ## Contents
 
@@ -30,12 +29,12 @@ inventing wording inside a role file.
 
 ## Task-flow rules
 
-Extensions the usability expert uses beyond the ten classics:
+Usability-expert extensions beyond the ten classics:
 
-- **NN-11 Sensible defaults** — the most likely choice is preselected; the user confirms
-  rather than constructs.
-- **NN-12 State coverage** — every screen has its empty / loading / error / success
-  variants designed, not just the happy path.
+- **NN-11 Sensible defaults** — most likely choice preselected; user confirms rather than
+  constructs.
+- **NN-12 State coverage** — every screen has empty / loading / error / success variants
+  designed, not just the happy path.
 - **NN-13 Reversibility of commitment** — actions with consequences (pay, delete, submit)
   are previewable and, where possible, reversible or confirmable.
 
@@ -66,7 +65,7 @@ Extensions the usability expert uses beyond the ten classics:
 ## Accessibility
 
 WCAG 2.1 AA-oriented. Mark each finding **confirmed** (measurable from the artifact) or
-**needs live check** (requires the running product or markup).
+**needs live check** (requires running product or markup).
 
 | Key | Rule | Threshold / check |
 |-----|------|-------------------|

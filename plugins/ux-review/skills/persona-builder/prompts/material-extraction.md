@@ -1,8 +1,8 @@
 # Material extraction — signal pull
 
 Instruction block for a **signal-extraction sub-run**, one per material (or per chunk of a
-large material) when fanning out across subagents. For a handful of materials, the
-orchestrator does this inline instead. The job is narrow: pull raw signals, don't conclude.
+large material) when fanning out across subagents. For a handful of materials, run it inline.
+The job is narrow: pull raw signals, don't conclude.
 
 ## What the orchestrator passes
 
@@ -43,7 +43,6 @@ orchestrator does this inline instead. The job is narrow: pull raw signals, don'
 
 ## What the orchestrator does with the output
 
-Collects all signals across materials into one pool, then clusters them in Phase 2
-([../reference/synthesis.md](../reference/synthesis.md)). Source tags survive all the way to
-`_synthesis.md`, where they become the trait→evidence map that makes each persona
-defensible.
+Collects all signals into one pool, then clusters them in Phase 2
+([../reference/synthesis.md](../reference/synthesis.md)). Source tags survive to
+`_synthesis.md`, where they become the trait→evidence map.

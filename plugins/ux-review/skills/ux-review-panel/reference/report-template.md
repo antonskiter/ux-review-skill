@@ -1,14 +1,14 @@
 # Report templates
 
 Two files in `ux-review/<date>-<target>-<version>/`. `action-items.md` is the deliverable;
-`report.md` is the supporting narrative. Both use the **same stable IDs** as anchors so
-they cross-link, and so re-runs can diff.
+`report.md` is the supporting narrative. Both use the **same stable IDs** as anchors to
+cross-link and to diff re-runs.
 
 ---
 
 ## action-items.md
 
-The main artifact — prioritized, scannable, each row anchored by its stable ID.
+Prioritized, scannable, each row anchored by its stable ID.
 
 ```markdown
 # Action items — <target> <version> (<date>)
@@ -45,7 +45,7 @@ regressed` relative to the prior run in this series (omit on a first run).
 
 ## report.md
 
-The UX-research narrative. Sections:
+The UX-research narrative.
 
 ```markdown
 # UX review — <target> <version> (<date>)

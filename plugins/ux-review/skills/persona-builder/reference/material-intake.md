@@ -1,6 +1,6 @@
 # Material intake
 
-Lightest probe first, then ask. Classify the run's evidence level — it decides the
+Lightest probe first, then ask. Classify the run's evidence level — it sets the
 `grounded` flag and confidence on every persona. Don't manufacture richness from thin
 input.
 
@@ -34,8 +34,7 @@ input.
 ## How structured is the input? Adopt vs. synthesize
 
 Before clustering from raw signals, check whether the materials **already carry a persona
-structure**. Reusing what's there beats re-deriving it — it respects work already done and
-stays faithful to the source.
+structure**. Reuse what's there instead of re-deriving it.
 
 Detection cues (any of these → likely structured):
 
@@ -53,10 +52,9 @@ When structured input is present:
   has support, attach real quotes/signals, and raise or lower confidence accordingly. A
   given persona that the raw data contradicts is a finding — surface the conflict, don't
   silently "fix" it.
-- **Set `grounded` by backing, not by format.** A neatly formatted persona with no evidence
-  behind it is still `grounded: false` — structure is not the same as grounding.
-- **Note unbacked given personas** in the gaps/changes section rather than dropping them
-  quietly; the user defined them for a reason.
+- **Set `grounded` by backing, not by format.** A formatted persona with no evidence behind
+  it is still `grounded: false`.
+- **Note unbacked given personas** in the gaps/changes section; don't drop them quietly.
 
 When input is semi-structured (some segments, some raw) → adopt the structured part, cluster
 the rest, then reconcile so you don't produce two personas describing the same user.

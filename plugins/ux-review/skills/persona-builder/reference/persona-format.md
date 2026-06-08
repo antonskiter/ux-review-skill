@@ -3,10 +3,9 @@
 Output mirrors the bundled scaffold in `../assets/personas-scaffold/_TEMPLATE.md` so
 [ux-review-panel](../../ux-review-panel/SKILL.md) reads the result without translation. One
 file per persona, written to the project's `personas/<slug>.md`. If the project has no
-`personas/` folder yet, scaffold it from `../assets/personas-scaffold/` (its `README.md`
-holds the shared rules, `_TEMPLATE.md` the starting point) so the project gets the rules
-doc too. Keep each persona file clean — it gets pasted as the persona's identity during a
-stepwise walkthrough.
+`personas/` folder yet, scaffold it from `../assets/personas-scaffold/` (`README.md` =
+shared rules, `_TEMPLATE.md` = starting point). Keep each persona file clean — it gets pasted
+as the persona's identity during a stepwise walkthrough.
 
 ## Frontmatter
 
@@ -55,12 +54,12 @@ so the walkthrough stays in character.
 
 ## Quality bar for the body
 
-- **Reactable cold.** The portrait must let the persona walk screens naively — capture
-  expectations and mental model, never knowledge of the "right" path.
+- **Reactable cold.** Capture expectations and mental model so the persona walks screens
+  naively — never knowledge of the "right" path.
 - **Specific over generic.** "Distrusts forms that ask for a phone number before showing a
   price" beats "values privacy."
-- **One axis, sharply.** Don't make every persona a well-rounded everyperson; each should
-  fail and succeed differently from the others.
+- **One axis, sharply.** Not a well-rounded everyperson; each should fail and succeed
+  differently from the others.
 
 ## `_synthesis.md` (the provenance companion)
 
