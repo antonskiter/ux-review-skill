@@ -22,9 +22,10 @@ images burns context and usually dead-ends.
 So, for any input type:
 
 - **Use the tool that returns a rendered image directly.** Whatever the channel calls it
-  (a screenshot/snapshot/export-as-image action), that's the one. Reach for source-level
-  output (markup, component code, design metadata, tokens) **only** to read copy text or
-  check token values on a *specific* screen — never as the way to get the picture.
+  (a screenshot/snapshot/export-as-image action), that's the one. Source-level output
+  (markup, component code, design metadata, tokens, interaction wiring) is the right tool
+  for *other* questions — copy text, token values, and the transitions that build the flow
+  graph (see [flow-graph.md](flow-graph.md)) — just never as the way to get the *picture*.
 - **Capture one screen at a time** at a sensible resolution (≈1280–1440px on the long
   edge). Don't try to export the whole set in a single call — large multi-frame exports
   time out or overflow the tool response.
@@ -65,9 +66,12 @@ A concrete instance of the capture principle. With the Figma MCP connected:
 3. For each frame, capture with the **screenshot tool** (`get_screenshot` by node-id,
    long edge ≈1280–1440) → inline images into `screens/`, one frame at a time.
 
-Use `get_design_context` / design-data tools **only** to read a screen's copy text or
-token values — *not* to obtain the screen image (it returns code/data, which is the wrong
-shape for review and wastes context). Do not chunk base64 out of an export call.
+Use `get_design_context` / design-data tools for the *source-level* questions they're good
+at — copy text, token values, and **interaction/prototype wiring for the flow graph** (see
+[flow-graph.md](flow-graph.md)) — but **not** to obtain the screen image (they return
+code/data, the wrong shape for capturing pixels, and it wastes context). Two different jobs:
+screenshot tool for the picture, design-data tools for what's wired underneath. Do not chunk
+base64 out of an export call.
 
 - **MCP not connected** → ask which is convenient: attach PNG exports, provide a Figma REST
   token, or connect the MCP. Don't guess a token or a file key, and don't accept a token

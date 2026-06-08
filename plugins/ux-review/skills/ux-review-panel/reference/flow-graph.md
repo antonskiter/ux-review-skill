@@ -33,6 +33,27 @@ General rule: **a screen's position in the source (layer order, DOM order, file 
 not its position in the flow.** Order by spatial layout or observed navigation, and mark
 anything you didn't observe as inferred.
 
+## Mine the object model for transitions
+
+The capture principle ("pixels, not source") is about getting screen *images* — it does
+**not** mean ignore the underlying objects when working out *transitions*. For edges, the
+object/design data is often the strongest evidence short of observing a click, and it's
+worth digging deeper than the visual layout:
+
+- **Figma** — read interaction/reaction objects on nodes, prototype destination references,
+  and "on click → navigate to {nodeId}" wiring. A button whose object names its target
+  frame is a real edge (confidence `figma-prototype`), stronger than any position guess. This
+  is a legitimate use of design-context/metadata tools — query them for *interactions*, not
+  for the screen picture.
+- **Live / DOM** — link `href`s, route definitions, handler targets, and form `action`s name
+  destinations; these turn an inferred edge into a near-observed one.
+- **Coded prototype** — routing config and navigation calls reveal the edge map directly.
+
+So: order screens by layout as a cheap default, but when transitions are the question, go
+into the objects — the wiring that names where a control leads is high-confidence edge data
+that spatial position can't give you. Promote such edges above `inferred`, and still mark as
+`inferred` only the gaps the objects don't cover.
+
 ## Representing the graph
 
 Keep it simple and inspectable — a small list of nodes and edges is enough:
